@@ -6,6 +6,7 @@
   "author": "YukiYuigishi <64316110+YukiYuigishi@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
-    "discord.js": "^12.5.3"
+    "discord.js": "^12.5.3",
+    "eslint": "^7.26.0"
   }
 }
