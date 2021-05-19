@@ -14,17 +14,39 @@ client.on('message', message => {
       message.channel.send('hoge');
    }
 
-   switch(message.content){
-      case 'h/':
-         sub_help(message);
-         break;
-      case 'h/ help':
-         help(message);
-         break;
+   
+   let command = spritMessageContent(message.content);
+   if(command[0] === 'h/'){
+      switch(command[1]){
+         case 'help':
+            help(message);
+            break;
+
+         case 'sub':
+            listSubShow(message);
+            break;
+
+         case 'list':
+            listHomeworkShow(message);
+            break;
+
+         case 'add':
+            homeworkAdder(message,command);
+            break;
+
+         default:
+            sub_help(message);
+      }
    }
 
 })
 
+function spritMessageContent(string){
+   const  space = " ";
+   return string.split(space);
+}
+
+//help
 function help(message){
    try{
       const buff = fs.readFileSync("./help.md","utf-8");
@@ -35,6 +57,7 @@ function help(message){
    }
    
 }
+
 function sub_help(message){
    try{
       const buff = fs.readFileSync("./help_sub.md","utf-8");
@@ -43,6 +66,9 @@ function sub_help(message){
    catch(e){
       message.channel.send(e.message);
    }
+}
+
+function homeworkAdder(message,command){
    
 }
 
