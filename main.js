@@ -10,28 +10,30 @@ client.once('ready', () => {
 
 client.on('message', message => {
    console.log(message.content);
-   if(message.content === '!ping'){
+   if (message.content === '!ping') {
       message.channel.send('hoge');
    }
 
-   
+
    let command = spritMessageContent(message.content);
-   if(command[0] === 'h/'){
-      switch(command[1]){
+   if (command[0] === 'h/') {
+      console.log(command);
+      switch (command[1]) {
          case 'help':
             help(message);
             break;
 
          case 'sub':
+            // Show homework list
             listSubShow(message);
             break;
 
          case 'list':
             listHomeworkShow(message);
             break;
-
+         // Add homework 
          case 'add':
-            homeworkAdder(message,command);
+            homeworkAdder(message, command);
             break;
 
          default:
@@ -41,35 +43,84 @@ client.on('message', message => {
 
 })
 
-function spritMessageContent(string){
-   const  space = " ";
+function spritMessageContent(string) {
+   const space = " ";
    return string.split(space);
 }
 
 //help
-function help(message){
-   try{
-      const buff = fs.readFileSync("./help.md","utf-8");
+function help(message) {
+   try {
+      const buff = fs.readFileSync("./help/help.md", "utf-8");
       message.channel.send(buff);
    }
-   catch(e){
+   catch (e) {
       message.channel.send(e.message);
    }
-   
+
 }
 
-function sub_help(message){
-   try{
-      const buff = fs.readFileSync("./help_sub.md","utf-8");
+function sub_help(message) {
+   try {
+      const buff = fs.readFileSync("./help/help_sub.md", "utf-8");
       message.channel.send(buff);
    }
-   catch(e){
+   catch (e) {
       message.channel.send(e.message);
    }
 }
+// h/ add sub  
 
-function homeworkAdder(message,command){
-   
+function homeworkAdder(message, command) {
+   let checkSubject = command[2];
+   let checkSubjectMolding = "";
+   //check subjeckt 
+   console.log(command)
+   if (checkSubject === '機構学' | checkSubject === '機構') {
+      //機構学
+      checkSubjectMolding = 'Mecanics';
+   } else if (checkSubject === '英語2' | checkSubject === '英語' | checkSubject === '英語２') {
+      //英語2
+      checkSubjectMolding = 'English';
+   } else if (checkSubject === '英語表現2' | checkSubject === '英語表現' | checkSubject === '英語表現２' | checkSubject === '英表') {
+      //英語表現
+      checkSubjectMolding = 'EnglishExpression';
+   } else if (checkSubject === '数学2A' | checkSubject === '数A' | checkSubject === '数２A') {
+      //数学2A
+      checkSubjectMolding = 'MathA';
+   } else if (checkSubject === '数2B' | checkSubject === '数B' | checkSubject === '数２B') {
+      //数学2B
+      checkSubjectMolding = 'MathB';
+   } else if (checkSubject === '国語' | checkSubject === '国語2' | checkSubject === '国語２' | checkSubject === '国' | checkSubject == 'ja') {
+      //国語2
+      checkSubjectMolding = 'Japanese';
+   } else if (checkSubject === 'プログラミング' | checkSubject === 'プログラミング2' | checkSubject === 'プログラミング２' | checkSubject == 'programming' | checkSubject == 'Pro' | checkSubject == 'Prog') {
+      //プログラミング
+      checkSubjectMolding = 'Programming';
+   } else if (checkSubject === '現代社会' | checkSubject === '現社') {
+      //現代社会
+      checkSubjectMolding = 'ModernSociety';
+   } else if (checkSubject === '世界史' | checkSubject === '世界') {
+      //世界史
+      checkSubjectMolding = 'WorldHistory';
+   } else if (checkSubject == 'other') {
+      checkSubjectMolding = 'Other';
+   }
+   else {
+      let erroMsg = "error: 引数が足りません"
+      message.channel.send(erroMsg);
+
+   }
+   message.channel.send(checkSubjectMolding);
+
+
+
+
+
+
+
+
+
 }
 
 client.login(token);
