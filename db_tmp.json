@@ -10,12 +10,10 @@
       }
    },
    "教科1": {
-      "date": {
-         "dedline": "2021/4/4",
+      "2021/4/4": {
          "contents": "hogehoge"
       },
-      "date1": {
-         "dedline": "2021/4/4",
+      "2021/4/5": {
          "contents": "hogehoge"
       }
    }

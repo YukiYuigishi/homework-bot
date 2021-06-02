@@ -72,10 +72,41 @@ function sub_help(message) {
 // h/ add sub  
 
 function homeworkAdder(message, command) {
-   let checkSubject = command[2];
+   //subjectを成形
+   let checkSubjectMolding = check_sub(command[2]);
+   let addedHomeworkObj = {"dedline": command[3], "contents": command[4]};
+   let db = JSON.parse(
+      fs.readFileSync(
+         "./db.json",
+         "utf-8"
+      )
+   );
+
+
+   try {
+      let dbObject = JSON.parse(
+         fs.readFileSync(
+            "./db.json",
+            "utf-8"
+         )
+      );
+   } catch (e) {
+      message.channel.send(e.message);
+   }
+
+   dbObject[checkSubjectMolding].push(addedHomeworkObj);
+
+   fs.writeFileSync("./db.json", JSON.stringify(dbObject));
+
+
+}
+
+function check_sub(checkSubject) {
+   //教科の判定
+
    let checkSubjectMolding = "";
    //check subjeckt 
-   console.log(command)
+
    if (checkSubject === '機構学' | checkSubject === '機構') {
       //機構学
       checkSubjectMolding = 'Mecanics';
@@ -109,18 +140,9 @@ function homeworkAdder(message, command) {
    else {
       let erroMsg = "error: 引数が足りません"
       message.channel.send(erroMsg);
-
    }
-   message.channel.send(checkSubjectMolding);
 
-
-
-
-
-
-
-
-
+   return checkSubjectMolding;
 }
 
 client.login(token);
