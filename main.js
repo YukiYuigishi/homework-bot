@@ -75,13 +75,6 @@ function homeworkAdder(message, command) {
    //subjectを成形
    let checkSubjectMolding = check_sub(command[2]);
    let addedHomeworkObj = {"dedline": command[3], "contents": command[4]};
-   let db = JSON.parse(
-      fs.readFileSync(
-         "./db.json",
-         "utf-8"
-      )
-   );
-
 
    try {
       let dbObject = JSON.parse(
