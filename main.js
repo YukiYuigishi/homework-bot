@@ -33,6 +33,7 @@ client.on('message', message => {
             break;
          // Add homework 
          case 'add':
+            console.log("add");
             homeworkAdder(message, command);
             break;
 
@@ -71,22 +72,18 @@ function sub_help(message) {
 }
 // h/ add sub  
 
-function homeworkAdder(message, command) {
+function homeworkAdder(message,command) {
    //subjectを成形
-   let checkSubjectMolding = check_sub(command[2]);
+   let checkSubjectMolding = check_sub(message,command[2]);
    let addedHomeworkObj = {"dedline": command[3], "contents": command[4]};
 
-   try {
-      let dbObject = JSON.parse(
-         fs.readFileSync(
-            "./db.json",
-            "utf-8"
-         )
-      );
-   } catch (e) {
-      message.channel.send(e.message);
-   }
+   let dbObject = JSON.parse(
+      fs.readFileSync(
+         "./db.json"
+      )
+   );
 
+   console.log(dbObject);
    dbObject[checkSubjectMolding].push(addedHomeworkObj);
 
    fs.writeFileSync("./db.json", JSON.stringify(dbObject));
@@ -94,7 +91,7 @@ function homeworkAdder(message, command) {
 
 }
 
-function check_sub(checkSubject) {
+function check_sub(message,checkSubject) {
    //教科の判定
 
    let checkSubjectMolding = "";
@@ -135,6 +132,7 @@ function check_sub(checkSubject) {
       message.channel.send(erroMsg);
    }
 
+   console.log(checkSubjectMolding);
    return checkSubjectMolding;
 }
 
