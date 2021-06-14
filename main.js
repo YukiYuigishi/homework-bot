@@ -29,7 +29,7 @@ client.on('message', message => {
             break;
 
          case 'list':
-            listHomeworkShow(message);
+            listHomeworkShow(message,command);
             break;
          // Add homework 
          case 'add':
@@ -91,6 +91,35 @@ function homeworkAdder(message,command) {
 
 }
 
+function listHomeworkShow(message,command) {
+   //subjectを成形
+   let checkSubjectMolding = check_sub(message,command[2]);
+
+   console.log("check_sub:" + checkSubjectMolding );
+
+   let dbObject = JSON.parse(
+   fs.readFileSync(
+         "./db.json"
+      )
+   );
+
+   console.log(dbObject);
+//   let HomeworkList = JSON.stringify(dbObject[checkSubjectMolding]);
+   let HomeworkList = dbObject[checkSubjectMolding];
+   //送るためのメッセージの作成
+   let createMessage = "```\n" ;
+   //要修正
+   //0 === HomeworkList.length だった場合の対応ができないので
+   for(let i = 0;i < HomeworkList.length; i++){
+      createMessage += "期限 " + HomeworkList[i] .dedline + " 内容 " + HomeworkList[i].contents + "\n";
+   }
+   createMessage += "```\n";
+
+   console.log("homeworklist:" + JSON.stringify(HomeworkList) );
+
+   message.channel.send(createMessage);
+   console.log(HomeworkList.length);
+}
 function check_sub(message,checkSubject) {
    //教科の判定
 
